@@ -1,0 +1,66 @@
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+<div id="app">
+    <h3>Chapter 3 - DOM interaction</h3>
+
+    <input type="text" @input="changeMessage">
+
+    <p>
+        {{ message }}
+    </p>
+
+    <button @click="message = 'Button changed me'">
+        Change message
+    </button>
+
+
+    <!-- Directives -->
+    <p>
+        {{ returnMessage() }} - <a href="{{ link }}">Not working link</a>
+    </p>
+
+    <a :href="link">Working link</a>
+
+    <!-- v-once will make it so that it renders it once and NEVER re-renders or updates again even though the message changes -->
+    <h3 v-once>
+        {{ message }}
+    </h3>
+
+    <!-- this one always updates accordingly when message changes value -->
+    <h3>
+        {{ message }}
+    </h3>
+
+    <!-- wont work cause it only renders text... need a special directive for it -->
+    <h3>
+        {{ htmlLink }}
+    </h3>
+
+    <!-- this works as expected, be careful though only use it if u trust the source of the HTML -->
+    <h3 v-html="htmlLink"></h3>
+
+    <!-- End Directives -->
+</div>
+
+<script>
+new Vue({
+    el: '#app',
+    data: {
+        message: 'This is from the vue instance!',
+        link: 'https://www.google.com',
+        htmlLink: '<a href="https://google.com">Google link</a>'
+    },
+    methods: {
+        // this one doesn't return... but changes the state of the vue instance... which updates the DOM accordingly
+        changeMessage: function(event) {
+            this.message = event.target.value
+        },
+        // this one returns a value which COULD be used in the template to set something like the message
+        returnMessage: function() {
+            // if we wanted to access a variable of the vue instance then we'd have to use the THIS keyword
+            // return this.message.concat('changed')
+            return 'Example Message'
+        }
+    },
+})
+</script>

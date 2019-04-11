@@ -8,6 +8,10 @@
     <p>
         {{ message }}
     </p>
+
+    <p>
+        {{ returnMessage() }}
+    </p>
 </div>
 
 <script>
@@ -17,8 +21,15 @@ new Vue({
         message: 'This is from the vue instance!'
     },
     methods: {
+        // this one doesn't return... but changes the state of the vue instance... which updates the DOM accordingly
         changeMessage: function(event) {
             this.message = event.target.value
+        },
+        // this one returns a value which COULD be used in the template to set something like the message
+        returnMessage: function() {
+            // if we wanted to access a variable of the vue instance then we'd have to use the THIS keyword
+            // return this.message.concat('changed')
+            return 'Example Message'
         }
     },
 })
