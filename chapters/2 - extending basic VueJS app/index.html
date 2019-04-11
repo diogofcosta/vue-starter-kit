@@ -1,0 +1,25 @@
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+<div id="app">
+    <p>Static Hello world!</p>
+
+    <input type="text" @input="changeMessage">
+
+    <p>
+        {{ message }}
+    </p>
+</div>
+
+<script>
+new Vue({
+    el: '#app',
+    data: {
+        message: 'This is from the vue instance!'
+    },
+    methods: {
+        changeMessage: function(event) {
+            this.message = event.target.value
+        }
+    },
+})
+</script>

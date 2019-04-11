@@ -1,0 +1,18 @@
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+<div id="app">
+    <p>Static Hello world!</p>
+
+    <p>
+        {{ message }}
+    </p>
+</div>
+
+<script>
+new Vue({
+    el: '#app',
+    data: {
+        message: 'This is from the vue instance!'
+    }
+})
+</script>
