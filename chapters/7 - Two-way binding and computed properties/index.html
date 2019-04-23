@@ -1,0 +1,95 @@
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+<div id="app">
+    <h3>Chapter 7 - Two-way bindings and computed properties</h3>
+
+    <!-- initially i want it to be set to my name variable's value... and be in sync with it, but if i change the input -->
+    <!-- then i also want it to update my variable... so i want it binded two-ways -->
+    <!-- v-model directive does that for us out of the box!! -->
+    <input type="text" v-model="name">
+
+    <!-- its the same as doing @input="handleChangeInput" and :value="name" where the handler would update the name var -->
+    <input type="text" @input="updateName" :value="name">
+    <p>{{ name }}</p>
+
+    <hr>
+
+    <!-- <button @click="increaseCounter">Increase counter</button>
+    <button @click="decreaseCounter">Decrease counter</button>
+    <p>Counter: {{ counter }}</p>
+
+    <p>Result: {{ counter > 5 ? 'Greater than 5' : 'Smaller than 5' }}</p>
+     -->
+    <!-- lets use a computed property instead to "react" to it automatically! -->
+    <p>Result: {{ result }}</p>
+
+    <!-- no need to have the methods to increase/decrease and update all the dependencies, simply update the value and -->
+    <!-- then use computed properties to react to that change -->
+    <button @click="counter++">Increase counter</button>
+    <button @click="counter--">Decrease counter</button>
+    <button @click="secondCounter++">Increase second counter</button>
+    <p>Counter(s): {{ counter }} | {{ secondCounter }}</p>
+    <p>Result as method: {{ getResult() }}</p>
+    <p>Result computed: {{ resultComputed }}</p>
+
+</div>
+
+<script>
+new Vue({
+    el: '#app',
+    data: {
+        counter: 0,
+        secondCounter: 0,
+        name: 'Diogo',
+        result: '', // data is not reactive so we need to use computed properties
+    },
+    methods: {
+        increaseCounter: function() {
+            // it would suck to update whatever dependency of counter every time we increase it...
+            // the more dependencies we have on it the more updates we'll have to do here on this method...
+            // even worse if we use the counter on another place (maybe another component or page) and want to
+            // keep them synced then it will be even more troublesome
+            this.counter++
+            this.result = this.counter > 5 ? 'Greater than 5' : 'Smaller than 5'
+        },
+        decreaseCounter: function() {
+            // just like the increased... every value that depends on counter will have to be updated here...
+            // so it starts to be too much trouble to do that
+            this.counter--
+            // repeated code here... we need to keep it DRY so how can we NOT have this code here?
+            // computed properties to the rescue! they react automatically to changes on a variable that we depend on!
+            this.result = this.counter > 5 ? 'Greater than 5' : 'Smaller than 5'
+        },
+        updateName: function(event) {
+            this.name = event.target.value
+        },
+        getResult: function() {
+            // better solution than before... we only have one place where return the value of the result and we can get rid of the result variable
+            // however this still gets executed everytime we change the "page" or in this case when we change the value of the counter.. since Vue
+            // doesnt know what its dependency is it will always call this method on every re-render of the page even if we just increase the 2nd
+            // counter which this result does NOT depend on! not a problem for lightweight pages/code but if a function actually does some sort
+            // of processing and takes a while to run... then we might not want to execute it everytime but ONLY when we need to...
+            console.log('getResult update!')
+            return this.counter > 5 ? 'Greater than 5' : 'Smaller than 5'
+        }
+    },
+    computed: {
+        resultComputed: function() {
+            console.log('computed update!')
+            // this will ALWAYS be updated whenever its dependency (counter) is updated... saving us the effort of having to do it ourselves!
+            return this.counter > 5 ? 'Greater than 5' : 'Smaller than 5'
+        }
+    },
+    watch: {
+        // we can also watch the changes on a certain variable... and execute code when something happens to it!
+        counter: function(newVal, oldVal) {
+            // if we need to call an api or run some async code when a value changes... we use watch instead of computed...
+            // run async code here
+            setTimeout(() =>{
+                console.log('simulated results from api call')
+                this.counter = 100
+            }, 2000)
+        }
+    }
+})
+</script>

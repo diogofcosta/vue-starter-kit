@@ -1,0 +1,56 @@
+<script src="https://npmcdn.com/vue/dist/vue.js"></script>
+
+<style >
+.demo {
+  width: 100px;
+  height: 100px;
+  background-color: grey;
+  display: inline-block;
+  margin: 10px;
+}
+
+.red {
+  background-color: red;
+}
+
+.blue {
+  background-color: blue;
+}
+
+.green {
+  background-color: green;
+}
+</style>
+
+<div id="app">
+  {# On click on this div... we'll change the flag... and then we bind the presence of a css class based on that flag #}
+  <div 
+    class="demo"
+    @click="attachRed = !attachRed"
+    :class="{red: attachRed}">
+  </div> 
+  <div 
+    class="demo"
+    @click="attachGreen = !attachGreen"
+    :class="{green: attachGreen}">
+  </div>
+  <div
+    class="demo"
+    @click="attachBlue = !attachBlue"
+    :class="{blue: attachBlue}">
+  </div>
+</div>
+
+<script>
+new Vue({
+    el: '#app',
+    data() {
+      return {
+        // properties that will control the presence or not of the CSS class on an element!
+        attachRed: false,
+        attachBlue: false,
+        attachGreen: false,
+      }
+    },
+});
+</script>
