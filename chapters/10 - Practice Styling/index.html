@@ -1,0 +1,118 @@
+<script src="https://npmcdn.com/vue/dist/vue.js"></script>
+
+<style>
+	#effect {
+		width: 100px;
+		height: 100px;
+		border: 1px solid black;
+	}
+
+	.highlight {
+		background-color: red;
+		width: 200px !important;
+	}
+
+	.shrink {
+		background-color: gray;
+		width: 50px !important;
+	}
+
+	.green {
+		background-color: green;
+	}
+
+	.red {
+		background-color: red;
+	}
+
+	.blue {
+		background-color: blue;
+	}
+
+	.yellow {
+		background-color: yellow;
+	}
+
+	.purple {
+		background-color: purple;
+	}
+
+	.border-blue {
+		border: 1px solid blue !important;
+	}
+</style>
+
+<div id="exercise">
+	<!-- 
+    1) Start the Effect with the Button. The Effect should alternate the "highlight" or "shrink" 
+    class on each new setInterval tick (attach respective class to the div with id "effect" below) 
+  -->
+	<div>
+		<button @click="startEffect">Start Effect</button>
+		<div id="effect" :class="effectClasses"></div>
+	</div>
+	<!-- 2) Create a couple of CSS classes and attach them via the array syntax -->
+	<div :class="[green, borderBlue]">I got no class :(</div>
+	<!-- 3) Let the user enter a class (create some example classes) and attach it -->
+	<div>
+		<label for="class">Write a color</label>
+		<input name="class" type="text" v-model="activeClass" />
+		<div :class="[activeClass]">This is a test?</div>
+	</div>
+	<!-- 4) Create a simple progress bar with setInterval and style bindings. Start it by hitting the below button. -->
+	<div style="display: flex;">
+		<button @click="startProgress">Start Progress</button>
+		<div :style="progressStyle"><span>{{ this.progress }}%</span></div>
+	</div>
+</div>
+
+<script>
+	new Vue({
+		el: '#exercise',
+		data: {
+			activeClass: '',
+			highlight: false,
+			green: 'green',
+			borderBlue: 'border-blue',
+			progress: 0,
+			progressInterval: null
+		},
+		computed: {
+			effectClasses() {
+				return {
+					highlight: this.highlight,
+					shrink: !this.highlight
+				};
+			},
+			progressStyle() {
+				return {
+          backgroundColor: 'orange',
+					height: 20 + 'px',
+					width: this.progress + 'px'
+				};
+			}
+		},
+		methods: {
+			startEffect: function() {
+				// every 500ms toggle the highlight flag which in turn makes it so that the CSS classes change
+				setInterval(() => {
+					this.highlight = !this.highlight;
+				}, 500);
+			},
+			startProgress: function() {
+				// every 1000ms increment the progress by 20% until it fills up
+				if (!this.progressInterval) {
+          this.progress = 0
+					this.progressInterval = setInterval(() => {
+						if (this.progress !== 100) {
+							this.progress += 20
+						} else {
+              clearInterval(this.progressInterval)
+              this.progressInterval = null
+						}
+					}, 1000);
+				}
+			}
+		}
+	});
+</script>

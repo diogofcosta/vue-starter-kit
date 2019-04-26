@@ -1,0 +1,75 @@
+<script src="https://npmcdn.com/vue/dist/vue.js"></script>
+
+<style>
+	.demo {
+		width: 100px;
+		height: 100px;
+		background-color: grey;
+		display: inline-block;
+		margin: 10px;
+	}
+
+	.red {
+		background-color: red;
+	}
+
+	.blue {
+		background-color: blue;
+	}
+
+	.green {
+		background-color: green;
+	}
+
+	.brown {
+		background-color: brown;
+	}
+
+	.yellow {
+		background-color: yellow;
+	}
+</style>
+
+<div id="app">
+	<!-- On click on this div... we'll change the flag...
+    and then we bind the presence of a css class based on that flag -->
+	<div class="demo" @click="attachRed = !attachRed" :class="{red: attachRed}"></div>
+	<div class="demo" @click="attachGreen = !attachGreen" :class="{green: attachGreen}"></div>
+	<div class="demo" @click="attachBlue = !attachBlue" :class="{blue: attachBlue}"></div>
+  
+  
+  <!-- if you need to attach several classes, or to make the code cleaner..
+    you should use an object declared on the computed section -->
+  <div class="demo" @click="attachBrown = !attachBrown" :class="customCSSclassObject"></div>
+  
+  <!-- could also bind a css class direcly to a data value we have... and even mix it
+  with some other conditions like an object we used before... VueJS will merge it all
+  into CSS classes -->
+  <div class="demo" :class="[color, {red: attachRed}]"></div>
+  <input type="text" v-model="color">
+</div>
+
+<script>
+	new Vue({
+		el: '#app',
+		data() {
+			return {
+				// properties that will control the presence or not of the CSS class on an element!
+				attachRed: false,
+				attachBlue: false,
+				attachBrown: false,
+        attachGreen: false,
+        color: 'yellow',
+			};
+		},
+		computed: {
+			// can also declare class objects here instead of in template, its especially
+			//helpful when you need to apply several classes dynamically
+			customCSSclassObject: function() {
+				return {
+					brown: this.attachBrown
+				};
+			}
+		}
+	});
+</script>

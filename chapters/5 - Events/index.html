@@ -1,62 +1,65 @@
 <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 
 <div id="app">
-    <h3>Chapter 5 - Events</h3>
+	<h3>Chapter 5 - Events</h3>
 
-    <button @click="incrementCounter">Click me</button>
-    <p>Counter: {{ counter }}</p>
+	<button @click="incrementCounter">Click me</button>
+	<p>Counter: {{ counter }}</p>
 
-    <p @mousemove="updateCoordinates">Mouse coordinates: ({{ xCoord }}, {{ yCoord }})</p>
+	<p @mousemove="updateCoordinates">Mouse coordinates: ({{ xCoord }}, {{ yCoord }})</p>
 
-    <button @click="incrementCounter(2)">Click me to increase by 2</button>
+	<button @click="incrementCounter(2)">Click me to increase by 2</button>
 
-    <!-- could also do this... it works directly incrementing a button -->
-    <button @click="counter++">Click me to increase by 2</button>
-    <p>Counter: {{ counter }}</p>
+	<!-- could also do this... it works directly incrementing a button -->
+	<button @click="counter++">Click me to increase by 2</button>
+	<p>Counter: {{ counter }}</p>
 
-    <!-- any valid JS code can be used in between the curly braces -->
-    <p>Counter: {{ counter * 2 }}</p>
-    <p>Counter: {{ counter * 2 > 10 ? 'Greater than 10' : 'Smaller than 10' }}</p>
+	<!-- any valid JS code can be used in between the curly braces -->
+	<p>Counter: {{ counter * 2 }}</p>
+	<p>Counter: {{ counter * 2 > 10 ? 'Greater than 10' : 'Smaller than 10' }}</p>
 
+	<p @mousemove="updateCoordinates">
+		<span>Mouse coordinates: ({{ xCoord }}, {{ yCoord }}) -</span>
+		<span @mousemove="dummy">This area does not update the coordinates</span>
+	</p>
 
-    <p @mousemove="updateCoordinates">
-        Mouse coordinates: ({{ xCoord }}, {{ yCoord }}) - <span @mousemove="dummy">This area does not update the coordinates</span>
-    </p>
+	<p @mousemove="updateCoordinates">
+		<span>Mouse coordinates: ({{ xCoord }}, {{ yCoord }}) -</span>
+		<span @mousemove.stop>This area does not update the coordinates</span>
+	</p>
 
-    <p @mousemove="updateCoordinates">
-        Mouse coordinates: ({{ xCoord }}, {{ yCoord }}) - <span @mousemove.stop>This area does not update the coordinates</span>
-    </p>
+	<!-- very spammy every key up will raise it... lets improve it with key modifiers -->
+	<input type="text" @keyup="alertUser" />
 
-    <!-- very spammy every key up will raise it... lets improve it with key modifiers -->
-    <input type="text" @keyup="alertUser">
-
-    <!-- only trigger the method when the key released is the enter key! -->
-    <!-- list of key modifiers - https://vuejs.org/v2/guide/events.html#Key-Modifiers They can be chained.... @event.enter.space.tab will work for any of those 3! -->
-    <input type="text" @keyup.enter="alertUser">
+	<!-- only trigger the method when the key released is the enter key! -->
+	<!-- list of key modifiers - https://vuejs.org/v2/guide/events.html#Key-Modifiers
+        They can be chained.... @event.enter.space.tab will work for any of those 3! -->
+	<input type="text" @keyup.enter="alertUser" />
 </div>
 
 <script>
-new Vue({
-    el: '#app',
-    data: {
-        counter: 0,
-        xCoord: null,
-        yCoord: null,
-    },
-    methods: {
-        incrementCounter: function(stepIncrement) {
-            this.counter = typeof stepIncrement === Number ? this.counter + stepIncrement : this.counter + 1
-        },
-        // we can pass the native JS event object to access event data...
-        updateCoordinates: function(event) {
-            this.xCoord = event.clientX
-            this.yCoord = event.clientY
-        },
-        // dummy method that stops teh propagation of 
-        dummy: (event) => event.stopPropagation(),
-        alertUser: function(event) {
-            alert('Alert!')
-        }
-    },
-})
+	new Vue({
+		el: '#app',
+		data: {
+			counter: 0,
+			xCoord: null,
+			yCoord: null
+		},
+		methods: {
+			incrementCounter: function(stepIncrement) {
+				this.counter =
+					typeof stepIncrement === Number ? this.counter + stepIncrement : this.counter + 1;
+			},
+			// we can pass the native JS event object to access event data...
+			updateCoordinates: function(event) {
+				this.xCoord = event.clientX;
+				this.yCoord = event.clientY;
+			},
+			// dummy method that stops teh propagation of
+			dummy: event => event.stopPropagation(),
+			alertUser: function(event) {
+				alert('Alert!');
+			}
+		}
+	});
 </script>
