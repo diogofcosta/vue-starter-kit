@@ -3,26 +3,50 @@
 <div id="app">
 	<h3>Chapter 5 - Events</h3>
 
+	<!-- Let's dive deeper into events and how to handle them
+	lets say i have a button here that once its clicked i want it to increment our counter
+	so we need to defined a method to increment the counter (or use it directly here ofc) and
+	also we need to defined the variable that will hold that counter! -->
 	<button @click="incrementCounter">Click me</button>
+
+	<!-- also for good measure we need to actually see our counter.. so let's output it here -->
 	<p>Counter: {{ counter }}</p>
 
+	<!-- so everytime we click that button.. the incrementCounter method is called and it will
+	well... increment our counter which gets updated automatically on the view -->
+
+
+	<!-- basically any native javascript event that exists.. we can bind to using this syntax
+	let's say i want to check the coordinates of the mouse when hovering over this block,
+	we need to create the method that updates its and the variables in the data object to hold the values -->
+
+	<!-- and afterwards we want to actually see the coordinates being changed so let's output them here -->
 	<p @mousemove="updateCoordinates">Mouse coordinates: ({{ xCoord }}, {{ yCoord }})</p>
 
+	<!-- note that as i said before... if we dont pass any parameter to our method on an event listener
+	then vue will automatically pass it the native JS event object... however if we do decide to pass
+	a parameter we can still access the native event by using the $event reserved variable -->
 	<button @click="incrementCounter(2)">Click me to increase by 2</button>
 
 	<!-- could also do this... it works directly incrementing a button -->
-	<button @click="counter++">Click me to increase by 2</button>
+	<button @click="counter++">Click me to increase counter</button>
 	<p>Counter: {{ counter }}</p>
 
 	<!-- any valid JS code can be used in between the curly braces -->
 	<p>Counter: {{ counter * 2 }}</p>
 	<p>Counter: {{ counter * 2 > 10 ? 'Greater than 10' : 'Smaller than 10' }}</p>
 
+	<!-- what if... we want to override the event that's already being listened to? let's go back to the mouse move
+	and coordinates example! in this case we want it to update when moving the mouse... except in a certain part
+	of it! we can override the listener by binding to it and calling another method... on that method we use
+	JS native event behavior to stop the propagation upwards (event bubbling) and therefore it will not update the coordinates -->
 	<p @mousemove="updateCoordinates">
 		<span>Mouse coordinates: ({{ xCoord }}, {{ yCoord }}) -</span>
 		<span @mousemove="dummy">This area does not update the coordinates</span>
 	</p>
 
+	<!-- vue provides us with useful event modifiers so we don't have to do all those shenanigans to prevent event bubbling we
+	can simply use the stop and prevent modifiers to achieve the same result! -->
 	<p @mousemove="updateCoordinates">
 		<span>Mouse coordinates: ({{ xCoord }}, {{ yCoord }}) -</span>
 		<span @mousemove.stop>This area does not update the coordinates</span>

@@ -9,19 +9,27 @@
         {{ message }}
     </p>
 
+    <!-- inside the directives we've talked about before, we can write any valid javascript code! although it looks a bit messier
+    we could simply change the message variable directly like so! -->
     <button @click="message = 'Button changed me'">
         Change message
     </button>
 
 
-    <!-- Directives -->
+    <!-- lets explore some additional directives -->
     <p>
+        <!-- you'd expect this link thats defined on the data object to just.. work! i mean we're using the curly braces syntax after all
+        but its important to realize that it doesnt work on HTML attributes, you need to use the directive syntax here if you want to
+        access the vue instance -->
         {{ returnMessage() }} - <a href="{{ link }}">Not working link</a>
     </p>
 
+    <!-- here we're telling vue to bind the value of the attribute href... to a certain part of our code (in this case the link variable) -->
     <a :href="link">Working link</a>
 
     <!-- v-once will make it so that it renders it once and NEVER re-renders or updates again even though the message changes -->
+    <!-- when message changes... it triggers a re-render of the parts that depend on it.. except this directive tells vue
+    to not update this specific part even if message itself is changed! -->
     <h3 v-once>
         {{ message }}
     </h3>
@@ -31,12 +39,14 @@
         {{ message }}
     </h3>
 
+    <!-- what if we want to output some HTML? vue only renders text -->
     <!-- wont work cause it only renders text... need a special directive for it -->
     <h3>
         {{ htmlLink }}
     </h3>
 
-    <!-- this works as expected, be careful though only use it if u trust the source of the HTML -->
+    <!-- with this special directive you can make it render HTML... so it this works as expected, be careful 
+        though only use it if u trust the source of the HTML -->
     <h3 v-html="htmlLink"></h3>
 
     <!-- End Directives -->

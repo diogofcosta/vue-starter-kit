@@ -3,6 +3,11 @@
 <div id="app">
     <p>Static Hello world!</p>
 
+    <!-- now let's extend our very simple app before diving deeper into other features, lets add an input -->
+    <!-- what i want to do here is update our message based on the state of this input... -->
+    <!-- i do so by using a special directive, a command that vuejs will recognize, that will tell ti listen to a certain even.. in this case the input event
+    and react to it and do something in this case we'll call a certain method-->
+    <!-- the method now must be created as it doesnt exist at first -->
     <input type="text" @input="changeMessage">
 
     <p>
@@ -20,9 +25,19 @@ new Vue({
     data: {
         message: 'This is from the vue instance!'
     },
+    // just like data, there's a reserved property, methods that well ... defines the methods that the vue instance has!
     methods: {
         // this one doesn't return... but changes the state of the vue instance... which updates the DOM accordingly
         changeMessage: function(event) {
+            // just like in vanilla JS vue puts the event object automatically on an event listener unless u pass a certain argument
+            // with this we can access the data that said event has
+
+            // we dont use data.message as you'd expect.. instead we use this.. and this refering to data might seem odd
+            // but under the hood vue works its magic and exposes the variables on the data property, and methods and other things we'll see
+            // under the this keyword, in this case refering to the vue instance itself!
+
+            // i know the event will have a target, which will be the input field.. and that input field has a value.. so lets use that to
+            // change our message
             this.message = event.target.value
         },
         // this one returns a value which COULD be used in the template to set something like the message

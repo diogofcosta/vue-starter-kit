@@ -1,16 +1,32 @@
+
+<!-- Later on we'll explore how to setup a more complex setup with more tooling (webpack for example) but for now we'll just import it from a CDN -->
 <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 
+<!-- not very interesting at all? just static content-->
+<p>Static Hello world!</p>
+
+<!-- lets enclose it with a div that we'll let vue know to take control of! -->
+<!-- Now that we've imported VueJS we can start using it and all its features! -->
 <div id="app">
+    <!-- here we'll just print out a static hello world, which by itself isn't very interesting... -->
     <p>Static Hello world!</p>
 
+    <!-- however we can now start making use of vue's features and making it more dynamic, let's say i want to output a message based on a certain variable -->
+    <!-- now that vuejs knows to take control of this div, we can simply use this special syntax double {{}} to signal vue to look for the variable u put inside it
+    in the data object of the vue instance! -->
     <p>
         {{ message }}
     </p>
 </div>
 
+<!-- for now we'll instantiate the vue instance on the same html file, later on we'll talk about using SFC's and how they're more organized to use -->
 <script>
+    // vue instances created like this are the core of each application, every piece of code that you want to use vue in
+    // everything here is javascript and will allow us to make use of it to interact with the page (our HTML)
 new Vue({
+    // we have to tell vue in which element we want it to insert or plug itself into, we do this by using the el (short for element option)
     el: '#app',
+    // the data 
     data: {
         message: 'This is from the vue instance!'
     }

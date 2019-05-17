@@ -1,5 +1,6 @@
 <script src="https://npmcdn.com/vue/dist/vue.js"></script>
 
+<!-- simple style to use on our app -->
 <style>
 	.demo {
 		width: 100px;
@@ -31,9 +32,17 @@
 </style>
 
 <div id="app">
+	<div class="demo"></div>
+	<div class="demo"></div>
+	
+	<hr>
+
   <!-- instead of classes we can style directly! we can use objects or again computed properties -->
 	<div class="demo" :style="{backgroundColor: color}"></div>
-  <div class="demo" :style="computedStyleObject"></div>
+	<div class="demo" :style="computedStyleObject"></div>
+	
+	<hr>
+
   <!-- could also use the array style to merge styles like on classes -->
 	<div class="demo" :style="[computedStyleObject, {height: width + 'px'}]"></div>
   <hr>

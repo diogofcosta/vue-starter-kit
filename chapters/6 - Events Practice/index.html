@@ -19,4 +19,19 @@
     <!-- Note that keydown event is probably not the best one here as it "lags" behind on some cases, key up or keypress is probably better -->
 </div>
 
-<script src="app.js"></script>
+<script>
+new Vue({
+    el: '#exercise',
+    data: {
+        value: ''
+    },
+    methods: {
+        showAlert: function() {
+            alert('This is an alert')
+        },
+        handlerInputKeyDown: function(event) {
+            this.value = event.target.value
+        }
+    }
+});
+</script>

@@ -1,5 +1,6 @@
 <script src="https://npmcdn.com/vue/dist/vue.js"></script>
 
+<!-- simple style to use on our app -->
 <style>
 	.demo {
 		width: 100px;
@@ -30,18 +31,31 @@
 	}
 </style>
 
+
+
 <div id="app">
+
+	<!-- lets style these small blocks using vue! dynamic styling :) first with classes.. then without classes -->
+	<div class="demo"></div>
+	<div class="demo"></div>
+	<div class="demo"></div>
+
+	<hr>
+
 	<!-- On click on this div... we'll change the flag...
     and then we bind the presence of a css class based on that flag -->
 	<div class="demo" @click="attachRed = !attachRed" :class="{red: attachRed}"></div>
 	<div class="demo" @click="attachGreen = !attachGreen" :class="{green: attachGreen}"></div>
 	<div class="demo" @click="attachBlue = !attachBlue" :class="{blue: attachBlue}"></div>
   
-  
+	<hr>
+	
   <!-- if you need to attach several classes, or to make the code cleaner..
     you should use an object declared on the computed section -->
   <div class="demo" @click="attachBrown = !attachBrown" :class="customCSSclassObject"></div>
-  
+	
+	<hr>
+
   <!-- could also bind a css class direcly to a data value we have... and even mix it
   with some other conditions like an object we used before... VueJS will merge it all
   into CSS classes -->
