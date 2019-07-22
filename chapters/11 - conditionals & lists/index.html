@@ -1,0 +1,55 @@
+<script src="https://npmcdn.com/vue/dist/vue.js"></script>
+
+<div id="app">
+
+  <!-- v-if removes the entire element from the DOM it doesn't simply hide it like v-show does
+  check how in the DOM the element "disappears" rather than being hidden -->
+	<p>You can see me! :D</p>
+  <p>But you can't see me!</p>
+  
+  <p v-if="show">You can see me! :D (v-if)</p>
+  <p v-show="show">But you can't see me! (v-show)</p>
+  <!-- v-else is the opposite of v-if and will always match the closest v-if directive -->
+  <p v-else>Now you don't! (v-else)</p>
+
+  <button @click="show = !show">Switch</button>
+  <p>Show variable is: {{ show }}</p>
+
+  <hr/>
+
+  <!-- outputting lists... use v-for! will repeat the element (dom) for however many elements there are in the array! -->
+
+  <!-- simple objects can be outputted directly! -->
+  <ul>
+    <li v-for="ingredient in ingredients">
+      {{ ingredient }}
+    </li>
+  </ul>
+
+
+  <!-- complex objects can also be outputted! We can access the properties of the current object! -->
+  <ul>
+    <!-- also access the index if you need it! -->
+    <li v-for="(person, index) in people">
+      {{ index }} - {{ person.name }} (age is... {{ person.age }}) - Likes {{ person.team }}
+    </li>
+  </ul>
+
+</div>
+
+<script>
+	new Vue({
+		el: '#app',
+		data() {
+			return {
+        show: true,
+        ingredients: ['meat', 'fruit', 'cookies'],
+        people: [
+          {name: 'Diogo', age: 30, team:'FCP'},
+          {name: 'Renato', age: 24, team: 'SLB'},
+          {name: 'Jo\'Zé' , age: 'mystery...', team: 'FCP'},
+        ]
+			};
+    },
+	})
+</script>

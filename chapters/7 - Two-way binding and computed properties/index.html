@@ -8,13 +8,26 @@
 	<!-- we already know how to change a variable based on the input's value with event handling...
 	now it's just a matter of also binding the value of the input... to state of our variable.. and we ALSO know how to do it
 	even if we haven't done it before... we know how to bind an attribute to a certain piece of code... in this case to our name -->
-	<input type="text" @input="updateName" />
-	<input type="text" :value="name" />
+	
+	<div>
+		<label>binded input event</label>
+		<input type="text" @input="updateName" />
+	</div>
+	
+	<div>
+		<label>binded value to name variable</label>
+		<input type="text" :value="name" />
+	</div>
+	
 
 	<!-- v-model directive does that for us out of the box which is pretty awesome!! -->
-	<input type="text" v-model="name" />
+	<div>
+		<label>v-model does both</label>
+		<input type="text" v-model="name" />
+	</div>
+	
 
-	<p>{{ name }}</p>
+	<p>Variable name: {{ name }}</p>
 
 	<hr />
 
@@ -24,14 +37,14 @@
 	-->
 	<button @click="increaseCounter">Increase counter and update result</button>
 	<button @click="decreaseCounter">Decrease counter and update result</button>
-	<p>Counter: {{ counter }}</p>
+	<p>Counter (as data property): {{ counter }}</p>
 
 	<!-- seems overly complicated to have all this code in the template.. and not very "flexible and re-usable"
 	so how can we improve it? -->
 	<p>Result: {{ counter > 5 ? 'Greater than 5' : 'Smaller than 5' }}</p>
   
 	<!-- lets use a data property instead to keep track of it so we can reuse it! -->
-	<p>Result: {{ result }}</p>
+	<p>Result (as data property): {{ result }}</p>
 
 	<!-- however we now have a problem... everytime we call the increate/decreate methods.. we update the counter
 	and we also have to update every variable that depends on counter... otherwise it won't reflect those changes-->
@@ -46,6 +59,7 @@
 	<button @click="counter--">Decrease counter</button>
 
 	<!-- talk about watchers... anothre way to react to changes to a certain variable -->
+	<p>(tip: try increasing the counter above 10...)</p>
 	<p>Api call status: {{ apiData ? apiData : 'Still no api data :(' }}</p>
 
 </div>
