@@ -26,12 +26,38 @@
     </li>
   </ul>
 
+  <hr/>
 
   <!-- complex objects can also be outputted! We can access the properties of the current object! -->
   <ul>
     <!-- also access the index if you need it! -->
     <li v-for="(person, index) in people">
       {{ index }} - {{ person.name }} (age is... {{ person.age }}) - Likes {{ person.team }}
+    </li>
+  </ul>
+
+  <hr/>
+
+  <!-- another syntax to iterate over numbers, albeit not very useful... it may have a use scenario sometimes -->
+  <ul>
+    <li v-for="n in 10">{{ n }}</li>
+  </ul>
+
+  <hr/>
+
+  <!-- we can navigate or iterate through each property of an object with a nested for.. if you have
+   weird niche use case scenario like that! :D be mindful that the order of the variables is important
+  first one will ALWAYS be the value -->
+  <!-- when possible try to pass a unique key (identifier as a param) when using the v-for
+  to give Vue a HINT of how to track the object if it ever changes and being able to re-render in
+  a faster way... by default it tracks it by index, and patches the element that's changing only
+  it's a decent way but may have some caveats that may not work for your use case, so it is recommended
+  whenever you can to use a unique identifier to help vue keep track of the item itself
+
+  more info can be found here: https://rimdev.io/the-v-for-key/ or in the official docs -->
+  <ul>
+    <li v-for="(person, index) in people" :key="person">
+      <div v-for="(value, key, index) in person">{{ index }}: ({{ key }} - {{ value }} )</span>
     </li>
   </ul>
 

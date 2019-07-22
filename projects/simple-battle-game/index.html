@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+
+<!-- This project uses a lot of what we've discussed so far...
+
+    - Listens to events and responds accordingly
+    - Conditionally shows/hides content
+    - The battle log is clearly a list that's being rendered
+    - Our health bars are being "managed" by the application
+    - etc, etc...
+-->
+
+<html>
+<head>
+    <title>Monster Slayer</title>
+    <script src="https://npmcdn.com/vue/dist/vue.js"></script>
+    <link rel="stylesheet" href="css/foundation.min.css">
+    <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<div id="app">
+    <section class="row">
+        <div class="small-6 columns">
+            <h1 class="text-center">YOU</h1>
+            <div class="healthbar">
+                <div class="healthbar text-center" :style="[healthBarCommonStyle, playerHealthBarStyle]">
+                  {{ playerHealth }}
+                </div>
+            </div>
+        </div>
+        <div class="small-6 columns">
+            <h1 class="text-center">MONSTER</h1>
+            <div class="healthbar">
+                <div class="healthbar text-center" :style="[healthBarCommonStyle, monsterHealthBarStyle]">
+                  {{ monsterHealth }}
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="row controls">
+        <div class="small-12 columns">
+            <button id="start-game" @click="startGame()" :class="{disabled: gameRunning}">START NEW GAME</button>
+        </div>
+    </section>
+    <section class="row controls">
+        <div class="small-12 columns" :class="{disabled: !gameRunning}">
+            <button id="attack" @click="playerNormalAttack()">ATTACK</button>
+            <button id="special-attack" @click="playerSpecialAttack()">SPECIAL ATTACK</button>
+            <button id="heal" @click="playerHeal()">HEAL</button>
+            <button id="give-up" @click="giveUp()">GIVE UP</button>
+        </div>
+    </section>
+    <section class="row log">
+        <div class="small-12 columns">
+            <ul>
+                <li v-for="(log, index) in gameLog" :key="index" :class="logClass(log.entity)">
+                  {{ log.message }}
+                </li>
+            </ul>
+        </div>
+    </section>
+</div>
+</body>
+</html>
+
+<script>
+	new Vue({
+		el: '#app',
+		data() {
+			return {
+        gameRunning: false,
+        gameLog: [],
+        playerHealth: 100,
+        monsterHealth: 100,
+        specialAttackValues: [10, 11, 12, 13, 14, 15],
+        normalAttackValues: [5, 6, 7, 8, 9, 10],
+        healValue: 10,
+			};
+    },
+    methods: {
+      startGame() {
+        this.resetGame()
+        this.gameRunning = true
+      },
+      // resets the game to a state where we can start over...
+      resetGame() {
+        this.gameRunning = false
+        this.playerHealth = 100
+        this.monsterHealth = 100
+        this.gameLog = []
+      },
+      giveUp() {
+        this.gameRunning = false
+        alert('You lose! Try again next time!')
+      },
+      playerNormalAttack() {
+        const turnAttack = this.getRandomNormalAttackValue()
+
+        this.monsterHealth = 
+        (this.monsterHealth - turnAttack >= 0) 
+        ? this.monsterHealth - turnAttack
+        : 0 
+
+        this.gameLog.unshift({entity: 'player', message: `Player hits monster for ${turnAttack}`})
+
+        this.afterPlayerTurnCheck()
+      },
+      playerSpecialAttack() {
+        const turnAttack = this.getRandomSpecialAttackValue()
+
+        this.monsterHealth = 
+        (this.monsterHealth - turnAttack >= 0) 
+        ? this.monsterHealth - turnAttack
+        : 0 
+
+        this.gameLog.unshift({entity: 'player', message: `Player hits monster for ${turnAttack}`})
+
+        this.afterPlayerTurnCheck()
+      },
+      playerHeal() {
+        this.playerHealth = 
+        (this.playerHealth + this.healValue >= 100) 
+        ? 100
+        : this.playerHealth + this.healValue
+
+        this.gameLog.unshift({entity: 'player', message: `Player heals himself for ${this.healValue}`})
+
+        this.afterPlayerTurnCheck()
+      },
+      afterPlayerTurnCheck() {
+        this.gameOverCheck()
+        if(this.gameRunning) {
+          this.monsterTurn()
+        }
+      },
+      gameOverCheck() {
+        if(this.playerHealth === 0) {
+          this.gameRunning = false
+          this.gameLog.unshift('Game over! Monster wins!')
+          alert('Game over! Monster wins!')
+        }
+        if(this.monsterHealth === 0) {
+          this.gameRunning = false
+          this.gameLog.unshift('Game over! Player wins!')
+          alert('Game over! Player wins!')
+        }
+      },
+      monsterTurn() {
+        if(this.gameRunning) {
+          const turnAttack = this.getRandomNormalAttackValue()
+
+          this.playerHealth = 
+          (this.playerHealth - turnAttack >= 0) 
+          ? this.playerHealth - turnAttack
+          : 0 
+
+          this.gameLog.unshift({entity: 'monster', message: `Monster hits player for ${turnAttack}`})
+
+          this.gameOverCheck()
+        }
+      },
+      getRandomNormalAttackValue() {
+        // pick a random value from normal attacks
+        return this.normalAttackValues[Math.floor(Math.random() * this.normalAttackValues.length)];
+      },
+      getRandomSpecialAttackValue() {
+        // pick a random value from special attacks
+        return this.specialAttackValues[Math.floor(Math.random() * this.specialAttackValues.length)];
+      },
+      logClass(entity) {
+        return entity === 'monster' ? 'monster-turn' : 'player-turn'
+      }
+    },
+    computed: {
+      healthBarCommonStyle() {
+        return {
+          backgroundColor: 'green',
+          margin: 0,
+          color: 'white' 
+        }
+      },
+      playerHealthBarStyle() {
+        return {
+          width: `${this.playerHealth}%`
+        }
+      },
+      monsterHealthBarStyle() {
+        return {
+          width: `${this.monsterHealth}%`
+        }
+      },
+    },
+	})
+</script>
